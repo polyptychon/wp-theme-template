@@ -2,7 +2,9 @@
 /**
  * The template for displaying the footer.
  *
- * Contains the closing of the #content div and all content after
+ * @package Polyptychon
+ * @subpackage theme_name
+ * @since theme_name 1.0
  *
  */
 ?>
