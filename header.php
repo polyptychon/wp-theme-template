@@ -20,7 +20,7 @@
 <body>
 <div class="header-bar">
 	<div class="container top-header-sub-menu">
-		<?php languages_list_header(); ?>
+		<?php //languages_list_header(); ?>
 		<?php wp_nav_menu( array(
 			'menu'       => 'Contact Menu',
 			'container'  => '',
