@@ -18,7 +18,12 @@ include( INCLUDES_PATH . 'language-menu.php' );
 /*
  * Add featured image support for custom theme
 */
-add_theme_support( 'post-thumbnails' );
+// add_theme_support( 'post-thumbnails' );
+
+/*
+Description: Used to style the TinyMCE editor.
+*/
+add_editor_style( 'assets/css/editor.css' );
 
 /*
  * Display page title to browser tab
