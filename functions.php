@@ -4,6 +4,7 @@
  * */
 define( 'INCLUDES_PATH', dirname( __FILE__ ) . '/includes/' );
 
+include( INCLUDES_PATH . 'media.php' );
 include( INCLUDES_PATH . 'acc.php' );
 include( INCLUDES_PATH . 'blog-header.php' );
 include( INCLUDES_PATH . 'blog-taxonomies.php' );
