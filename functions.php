@@ -16,6 +16,21 @@ include( INCLUDES_PATH . 'get-permalinks.php' );
 include( INCLUDES_PATH . 'language-menu.php' );
 
 /*
+ * Remove wordpress header metadata
+*/
+
+function my_remove_generators() {
+  remove_action('wp_head', 'wp_generator');
+  remove_action('wp_head', 'wlwmanifest_link');
+  remove_action('wp_head', 'rsd_link');
+  if ( ! empty ( $GLOBALS['sitepress'] ) ) {
+    remove_action( 'wp_head', array( $GLOBALS['sitepress'], 'meta_generator_tag' ) );
+  }
+}
+
+add_action( 'wp_head', 'my_remove_generators', 0 );
+
+/*
  * Add featured image support for custom theme
 */
 // add_theme_support( 'post-thumbnails' );
