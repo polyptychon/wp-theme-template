@@ -143,16 +143,23 @@ function get_picture_attributes( $args ) {
 
 	if ( is_null( $r['image'] ) ) {
 		$id  = $r['id'] == - 1 ? get_post_thumbnail_id() : $r['id'];
-		$img = wp_get_attachment_image_src( $id, 'large' );
+		$img = wp_get_attachment_image_src( $id, $r['thumb'] );
 		$src = $img[0];
 		$alt = get_post_meta( $id, '_wp_attachment_image_alt', true );
 		$w   = $r['width'] == 0 ? $img[1] : $r['width'];
 		$h   = $r['height'] == 0 ? $img[2] : $r['height'];
 	} else {
-		$src = $r['image']['sizes'][ $r['thumb'] ];
-		$alt = $r['image']['alt'];
-		$w   = $r['width'] == 0 ? $r['image']['sizes'][ $r['thumb'] . '-width' ] : $r['width'];
-		$h   = $r['height'] == 0 ? $r['image']['sizes'][ $r['thumb'] . '-height' ] : $r['height'];
+		if ($r['thumb']=="original") {
+			$src = $r['image']['url'];
+			$alt = $r['image']['alt'];
+			$w   = $r['width'] == 0 ? $r['image']['width']: $r['width'];
+			$h   = $r['height'] == 0 ? $r['image']['height'] : $r['height'];
+		} else {
+			$src = $r['image']['sizes'][ $r['thumb'] ];
+			$alt = $r['image']['alt'];
+			$w   = $r['width'] == 0 ? $r['image']['sizes'][ $r['thumb'] . '-width' ] : $r['width'];
+			$h   = $r['height'] == 0 ? $r['image']['sizes'][ $r['thumb'] . '-height' ] : $r['height'];
+		}
 	}
 
 	return array(

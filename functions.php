@@ -6,6 +6,7 @@ define( 'INCLUDES_PATH', dirname( __FILE__ ) . '/includes/' );
 
 include( INCLUDES_PATH . 'media.php' );
 include( INCLUDES_PATH . 'acc.php' );
+include( INCLUDES_PATH . 'blog-language.php' );
 include( INCLUDES_PATH . 'blog-header.php' );
 include( INCLUDES_PATH . 'blog-taxonomies.php' );
 include( INCLUDES_PATH . 'setup-taxonomies.php' );
@@ -14,6 +15,9 @@ include( INCLUDES_PATH . 'blog-categories.php' );
 include( INCLUDES_PATH . 'blog-home-pagination.php' );
 include( INCLUDES_PATH . 'get-permalinks.php' );
 include( INCLUDES_PATH . 'language-menu.php' );
+include( INCLUDES_PATH . 'calendar-widget.php' );
+include( INCLUDES_PATH . 'blog-pages.php' );
+include( INCLUDES_PATH . 'blog-menus.php' );
 
 /*
  * Remove wordpress header metadata
@@ -85,25 +89,30 @@ add_theme_support( 'title-tag' );
 // }
 
 /*
- * Main Menu active item is collection if artwork
+ * get link from first menu item child
 */
-// add_filter( 'nav_menu_css_class', 'thd_menu_classes', 10, 2 );
-// function thd_menu_classes( $classes, $item ) {
-// 	if ( get_post()->post_parent!=0 && get_post()->post_parent == get_post($item->ID)->post_parent) {
-// 		$classes = str_replace( 'current_page_parent', '', $classes );
-// 		$classes = str_replace( 'menu-item', 'menu-item current_page_parent', $classes );
-// 	} else  if ( ( get_post()->post_type == $item->attr_title) ) {
-// 		$classes = str_replace( 'current_page_parent', '', $classes );
-// 		$classes = str_replace( 'menu-item', 'menu-item current_page_parent', $classes );
-// 	} else {
-// 		$classes = str_replace( 'current_page_parent', '', $classes );
-// 	}
-// 	if ( is_404() ) {
-// 		$classes = str_replace( 'current_page_parent', '', $classes );
-// 	}
-
-// 	return $classes;
+// function my_nav_menu_child_link( $menu, $args ) {
+//   if ( $args->menu->slug == 'main-nav-menu' || $args->menu->slug == 'main-nav-menu-en' ):
+//     foreach ( $menu as $menu_item ):
+//       $children = get_children( array(
+//         'post_type'   => 'page',
+//         'post_parent' => $menu_item->object_id,
+//         'post_status' => 'publish',
+//         'numberposts' => 1,
+//         'orderby'     => 'menu_order',
+//         'order'       => 'ASC'
+//       ) );
+//       if ( $children ):
+//         foreach ( $children as $child ):
+//           $menu_item->url = get_permalink( $child->ID );
+//         endforeach;
+//       endif;
+//     endforeach;
+//   endif;
+//   return $menu;
 // }
+
+// add_filter( 'wp_nav_menu_objects', 'my_nav_menu_child_link', 10, 2 );
 
 /*
  * Rename posts from admin
