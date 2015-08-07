@@ -85,5 +85,5 @@ function the_blog_home_url() {
 	echo get_blog_home_url();
 }
 function get_blog_home_url() {
-	return get_bloginfo( 'wpurl' ) .'/'. get_language_code_for_url(). get_blog_home();
+	return get_bloginfo( 'wpurl' ) .'/'. get_language_code_for_url(). get_blog_home().'/';
 }

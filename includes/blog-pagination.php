@@ -12,7 +12,7 @@ function pagination( $query = null, $classes = 'pull-right' ) {
     return;
   }
   $paginationHTML .= "<ul class=\"pagination $classes\">";
-  $paginationHTML .= "<li><a rel=\"prev\" class=\"previous\" href=\"" . get_pagenum_link( $pageNumber - 1 ) . "\"><span class=\"glyphicon previous-icon\"></span></a></li>";
+  $paginationHTML .= "<li><a rel=\"prev\" class=\"previous\" href=\"" . get_pagenum_link( $pageNumber - 1 ) . "\"><span class=\"glyphicon icon-pagination-arrow-left\"></span></a></li>";
   if ( $totalPages < 8 ) {
     $paginationHTML .= get_pagination_HTML( 1, $totalPages, $pageNumber );
   } else {
@@ -32,7 +32,7 @@ function pagination( $query = null, $classes = 'pull-right' ) {
       $paginationHTML .= get_pagination_HTML( $totalPages, $totalPages, $pageNumber );
     }
   }
-  $paginationHTML .= "<li><a rel=\"next\" class=\"next\" href=\"" . get_pagenum_link( min( $pageNumber + 1, $totalPages ) ) . "\"><span class=\"glyphicon next-icon\"></span></a></li>";
+  $paginationHTML .= "<li><a rel=\"next\" class=\"next\" href=\"" . get_pagenum_link( min( $pageNumber + 1, $totalPages ) ) . "\"><span class=\"glyphicon icon-pagination-arrow-right\"></span></a></li>";
   $paginationHTML .= "</ul>";
   echo $paginationHTML;
 }

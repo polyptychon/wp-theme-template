@@ -4,20 +4,21 @@
  * */
 define( 'INCLUDES_PATH', dirname( __FILE__ ) . '/includes/' );
 
-include( INCLUDES_PATH . 'media.php' );
 include( INCLUDES_PATH . 'acc.php' );
-include( INCLUDES_PATH . 'blog-language.php' );
-include( INCLUDES_PATH . 'blog-header.php' );
-include( INCLUDES_PATH . 'blog-taxonomies.php' );
-include( INCLUDES_PATH . 'setup-taxonomies.php' );
-include( INCLUDES_PATH . 'setup-custom-post-type.php' );
 include( INCLUDES_PATH . 'blog-categories.php' );
-include( INCLUDES_PATH . 'blog-home-pagination.php' );
+include( INCLUDES_PATH . 'blog-header.php' );
+include( INCLUDES_PATH . 'blog-language.php' );
+include( INCLUDES_PATH . 'blog-menus.php' );
+include( INCLUDES_PATH . 'blog-pages.php' );
+include( INCLUDES_PATH . 'blog-pagination.php' );
+include( INCLUDES_PATH . 'blog-taxonomies.php' );
+include( INCLUDES_PATH . 'calendar-widget.php' );
 include( INCLUDES_PATH . 'get-permalinks.php' );
 include( INCLUDES_PATH . 'language-menu.php' );
-include( INCLUDES_PATH . 'calendar-widget.php' );
-include( INCLUDES_PATH . 'blog-pages.php' );
-include( INCLUDES_PATH . 'blog-menus.php' );
+include( INCLUDES_PATH . 'media.php' );
+include( INCLUDES_PATH . 'setup-custom-post-type.php' );
+include( INCLUDES_PATH . 'setup-taxonomies.php' );
+
 
 /*
  * Remove wordpress header metadata
@@ -215,3 +216,81 @@ add_theme_support( 'title-tag' );
 // 	) ) );
 // }
 
+/*
+ * Customize Gallery html
+ */
+// function my_post_gallery($output, $attr) {
+//   global $post;
+
+//   if (isset($attr['orderby'])) {
+//     $attr['orderby'] = sanitize_sql_orderby($attr['orderby']);
+//     if (!$attr['orderby'])
+//       unset($attr['orderby']);
+//   }
+
+//   extract(shortcode_atts(array(
+//     'order' => 'ASC',
+//     'orderby' => 'menu_order ID',
+//     'id' => $post->ID,
+//     'itemtag' => 'dl',
+//     'icontag' => 'dt',
+//     'captiontag' => 'dd',
+//     'columns' => 3,
+//     'size' => 'thumbnail',
+//     'include' => '',
+//     'exclude' => ''
+//   ), $attr));
+
+//   $id = intval($id);
+//   if ('RAND' == $order) $orderby = 'none';
+
+//   if (!empty($include)) {
+//     $include = preg_replace('/[^0-9,]+/', '', $include);
+//     $_attachments = get_posts(array('include' => $include, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby));
+
+//     $attachments = array();
+//     foreach ($_attachments as $key => $val) {
+//       $attachments[$val->ID] = $_attachments[$key];
+//     }
+//   }
+
+//   if (empty($attachments)) return '';
+
+//   // Here's your actual output, you may customize it to your need
+//   $output = "<div class=\"content-photos photos\">";
+
+//   // Now you loop through each attachment
+//   foreach ($attachments as $id => $attachment) {
+//     $img_thumb = wp_get_attachment_image_src($id, 'gallery_thumbnail');
+//     $img = wp_get_attachment_image_src($id, 'full');
+
+//     $output .= "<div class=\"image-container\">\n";
+//     $output .= "<div class=\"ih-item square effect6 from_top_and_bottom\">\n";
+//     $output .= "<a href=\"{$img[0]}\" class=\"trigger\">\n";
+//     $output .= "<div class=\"img\">\n";
+//     $output .= "<img src=\"{$img_thumb[0]}\" width=\"{$img_thumb[1]}\" height=\"{$img_thumb[2]}\" alt=\"\" />\n";
+//     $output .= "</div>\n";
+//     $output .= "<div class=\"info\"><div class=\"icons\"><span class=\"glyphicon icon-fullscreen-image\"></span></div></div>";
+//     $output .= "</a>\n";
+//     $output .= "</div>\n";
+//     $output .= "</div>\n";
+//   }
+
+//   $output .= "</div>\n";
+
+//   return $output;
+// }
+// add_filter('post_gallery', 'my_post_gallery', 10, 2);
+
+/*
+ * Customize anchor image
+ */
+// function custom_image_tag($html, $id) {
+//   $img = wp_get_attachment_image_src($id, 'full');
+//   if ($img && count($img)>=3) {
+//     $str = '<img data-width="'.$img[1].'" data-height="'.$img[2].'" ';
+//     return str_replace('<img ', $str, $html);
+//   }
+//   return $html;
+// }
+// add_filter('get_image_tag', 'custom_image_tag', 10, 2);
