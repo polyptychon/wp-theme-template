@@ -79,10 +79,22 @@ class My_Walker_Page_Child_Link extends Walker_Page {
 
 class My_Walker_Nav_Menu_Child_Link extends Walker_Nav_Menu {
 	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+		global $wp_query;
+		$queried_object = $wp_query->get_queried_object();
+
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 
 		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
 		$classes[] = 'menu-item-' . $item->ID;
+
+		$page_for_posts = get_option( 'page_for_posts' );
+		if ($queried_object->post_type=='collection-item') {
+			if (array_search('current_page_parent', $classes) && $item->object_id == $page_for_posts) {
+				unset( $classes[ array_search( 'current_page_parent', $classes ) ] );
+			} else if ($item->object_id==icl_object_id(11, 'page')) {
+				array_push($classes, 'current_page_parent');
+			}
+		}
 
 		/**
 		 * Filter the CSS class(es) applied to a menu item's list item element.
@@ -97,7 +109,6 @@ class My_Walker_Nav_Menu_Child_Link extends Walker_Nav_Menu {
 		 */
 		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args, $depth ) );
 		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
-
 		/**
 		 * Filter the ID applied to a menu item's list item element.
 		 *
@@ -115,7 +126,6 @@ class My_Walker_Nav_Menu_Child_Link extends Walker_Nav_Menu {
 		$output .= $indent . '<li' . $id . $class_names .'>';
 
 		$permalink = ! empty( $item->url ) ? $item->url : '';
-
 		if ($item->post_parent == 0):
 			$children = get_children( array( 'post_type'   => 'page',
 			                                 'post_parent' => $item->object_id,

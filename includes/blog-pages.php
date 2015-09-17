@@ -11,7 +11,7 @@ function get_first_level_page_title( $page_id ) {
 
 	return $first_parent->post_title;
 }
-function get_auto_excerpt($excerpt_word_count=24)
+function get_auto_excerpt($excerpt_word_count=40)
 {
 	global $post;
 	$excerpt = $post->post_excerpt;
