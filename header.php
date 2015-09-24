@@ -36,7 +36,7 @@
 						class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span
 						class="icon-bar"></span></button>
 			</div>
-			<nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse sub-navbar">
+			<nav class="collapse navbar-collapse bs-navbar-collapse sub-navbar">
 				<?php echo fix_acc(wp_nav_menu( array(
 					'menu'       => 'Main Nav Menu',
 					'items_wrap' => '<ul class="nav navbar-nav">%3$s</ul>',
