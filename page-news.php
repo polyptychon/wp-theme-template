@@ -1,1 +1,1 @@
-<h1>page-news.php</h1>
+<h2>page-news.php</h2>
