@@ -13,4 +13,5 @@
 
 <?php get_header(); ?>
 <h1>archive.php</h1>
+<?php get_template_part('page', 'news'); ?>
 <?php get_footer(); ?>

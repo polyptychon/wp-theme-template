@@ -1,7 +1,7 @@
 
 <?php
 /**
- * Template Name: Basic
+ * Template Name: homepage
  *
  * @package Polyptychon
  * @subpackage theme_name
@@ -10,5 +10,5 @@
  */
 ?>
 <?php get_header(); ?>
-<h1>page-templates/basic.php</h1>
+<h1>page-templates/homepage.php</h1>
 <?php get_footer(); ?>
