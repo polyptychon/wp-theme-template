@@ -55,23 +55,17 @@ add_theme_support( 'title-tag' );
 /*
  * Add menu support to custom theme
 */
-// function register_my_menu() {
-// 	register_nav_menu( 'header-menu', __( 'Header Menu' ) );
-// }
+function register_my_menu() {
+	register_nav_menu( 'header-menu', __( 'Header Menu' ) );
+}
 
-// add_action( 'init', 'register_my_menu' );
+add_action( 'init', 'register_my_menu' );
 /*
  * Add new custom image styles
  * add_image_size( $name, $width, $height, $crop );
 */
 // add_image_size( 'project_thumbnail', 270, 180, true );
 // add_image_size( 'services_thumbnail', 366, 194, true );
-// add_image_size( 'about_thumbnail', 753, 420, true );
-// add_image_size( 'news_thumbnail', 558, 350, true );
-// add_image_size( 'contact_thumbnail', 947, 420, true );
-// add_image_size( 'home_project_thumbnail', 165, 165, true );
-// add_image_size( 'home_clientlist_thumbnail', 220, 220, true );
-// add_image_size( 'home_header_thumbnail', 1600, 471, true );
 /*
  * Display new custom image styles when uploading media
 */
@@ -79,13 +73,7 @@ add_theme_support( 'title-tag' );
 // function my_custom_sizes( $sizes ) {
 // 	return array_merge( $sizes, array(
 // 		'project_thumbnail'         => __( 'Project Thumbnail' ),
-// 		'services_thumbnail'        => __( 'Services Thumbnail' ),
-// 		'about_thumbnail'           => __( 'About Thumbnail' ),
-// 		'news_thumbnail'            => __( 'News Thumbnail' ),
-// 		'contact_thumbnail'         => __( 'Contact Thumbnail' ),
-// 		'home_project_thumbnail'    => __( 'Home Project Thumbnail' ),
-// 		'home_clientlist_thumbnail' => __( 'Home Clientlist Thumbnail' ),
-// 		'home_header_thumbnail'     => __( 'Home Header Thumbnail' ),
+// 		'services_thumbnail'        => __( 'Services Thumbnail' )
 // 	) );
 // }
 

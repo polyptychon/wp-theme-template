@@ -17,4 +17,5 @@
 ?>
 <?php get_header(); ?>
 <h1>page.php</h1>
+<?php get_template_part('page', 'share-menu'); ?>
 <?php get_footer(); ?>
