@@ -30,7 +30,8 @@ function get_auto_excerpt($excerpt_word_count=40) {
 	}
 	return $excerpt;
 }
-function get_search_excerpt($search, $excerpt_word_count=34) {
+function get_search_excerpt($search, $excerpt_word_count=34)
+{
   $position = -1;
   $excerpt = get_the_content();
   $excerpt = strip_shortcodes( $excerpt );
@@ -55,7 +56,7 @@ function get_search_excerpt($search, $excerpt_word_count=34) {
   $sliced_words = array_slice($words, 0, $excerpt_word_count);
   if ($position>0) {
     $words_before = substr($excerpt, 0, $position);
-    $words_after = substr($excerpt, $position, $position + strlen($excerpt));
+    $words_after = substr($excerpt, $position);
     $words_before_array = explode(' ', $words_before);
     $words_after_array = explode(' ', $words_after);
     $words_before_array = array_slice($words_before_array, -($excerpt_word_count/2));
@@ -65,11 +66,9 @@ function get_search_excerpt($search, $excerpt_word_count=34) {
 
   if (count($sliced_words) > 0)
   {
-    array_pop($sliced_words);
     $excerpt = $position-($excerpt_word_count/2)>0 ? '...' : '';
     $excerpt .= implode(' ', $sliced_words);
-    if ($position + $search_result_length<strlen($fix_excerpt)) $excerpt .= '...';
-    else $excerpt .= ' '.$words[count($words)-1];
+    if ($position + $search_result_length<strlen($fix_excerpt)-10) $excerpt .= '...';
   }
   return $excerpt;
 }
