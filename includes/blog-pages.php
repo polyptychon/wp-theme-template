@@ -11,8 +11,7 @@ function get_first_level_page_title( $page_id ) {
 
 	return $first_parent->post_title;
 }
-function get_auto_excerpt($excerpt_word_count=40)
-{
+function get_auto_excerpt($excerpt_word_count=40) {
 	global $post;
 	$excerpt = $post->post_excerpt;
 	if( $excerpt == '' )
@@ -31,13 +30,12 @@ function get_auto_excerpt($excerpt_word_count=40)
 	}
 	return $excerpt;
 }
-function get_search_excerpt($search, $excerpt_word_count=34)
-{
+function get_search_excerpt($search, $excerpt_word_count=34) {
   $position = -1;
   $excerpt = get_the_content();
   $excerpt = strip_shortcodes( $excerpt );
   $excerpt = strip_tags($excerpt);
-  $fix_search = fix_acc($search);
+  $fix_search = fix_acc(trim(preg_replace('/\s+/',' ', $search)));
   $fix_excerpt = fix_acc($excerpt);
   $words = explode(' ', $excerpt);
   $search_result_length = 0;
