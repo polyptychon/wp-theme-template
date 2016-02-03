@@ -1,22 +1,25 @@
 <?php
 
-function the_blog_categories() {
-	$category_base = get_option( 'category_base' );
-	if ( ! empty( $category_base ) ) {
-		$category_base = '/' . $category_base . '/';
-	} else {
-		$category_base = '/';
-	}
-	$category_id = get_query_var( 'cat' );
+function the_blog_categories($all_news_label='All news') {
+	$category_query_id = get_query_var( 'cat' );
 
-	$blog_page_slug = get_blog_home();
+  $blog_page_slug = get_blog_home();
+  $total_posts = wp_count_posts()->publish;
+  $category_name = "$all_news_label ($total_posts)";
+  $category_link = get_home_url().'/'.$blog_page_slug;
+  $category_class = $category_query_id==0 ? 'class="active"' : '';
 
-	echo "<li " . ( $category_id == 0 ? ' class="active"' : '' ) . "><a href='/" . ( get_language_code() ) . "/" . $blog_page_slug . "'>" . __( 'All news ', 'cacta' ) . " (" . count_posts( ( ICL_LANGUAGE_CODE ), "post", "publish" ) . ")" . "</a></li>"; ?>
-	<?php foreach ( get_categories( array( 'hide_empty' => true ) ) as $category ) {
-		echo '<li' . ( $category->term_id == $category_id ? ' class="active"' : '' ) . '><a href="' . get_bloginfo( 'wpurl' ) . '/' . ( ICL_LANGUAGE_CODE ) . $category_base .
-		     $category->category_nicename . '/">' .
-		     $category->cat_name . " (" . $category->count . ")" . '</a>  ' .
-		     '</li>';
+  echo "<li $category_class>";
+  echo "<a $category_class href=\"$category_link\">$category_name</a>";
+  echo "</li>";
+  foreach ( get_categories( array( 'hide_empty' => true ) ) as $category ) {
+    $category_name = "$category->cat_name ($category->count)";
+    $category_link = get_category_link($category->term_id);
+    $category_class = $category->term_id == $category_query_id ? 'class="active"' : '';
+
+		echo "<li $category_class>";
+    echo "<a $category_class href=\"$category_link\">$category_name</a>";
+		echo "</li>";
 	}
 }
 
