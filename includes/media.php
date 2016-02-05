@@ -23,8 +23,8 @@ function the_picture_a( $args = array() ) {
  */
 function get_picture_a( $args = array() ) {
 	$defaults      = array(
-		"link_large"  => null,
-		"link_retina" => - 1,
+		"link_large"  => 'large',
+		"link_retina" => 'large',
 	);
 	$r             = wp_parse_args( $args, $defaults );
 	$args['thumb'] = $r['link_large'];
@@ -32,7 +32,7 @@ function get_picture_a( $args = array() ) {
 	$args['thumb'] = $r['link_retina'];
 	$img_retina    = get_picture_attributes( $args );
 
-	$picture = '<a href="' . $img_large['src'] . '"';
+	$picture = '<a class="image-container" href="' . $img_large['src'] . '"';
 	$picture .= ' data-width="' . $img_large['width'] . '"';
 	$picture .= ' data-height="' . $img_large['height'] . '"';
 	$picture .= ' data-retina-image="' . $img_retina['src'] . '"';
@@ -195,4 +195,39 @@ function get_embed_video_src( $video_embed_code ) {
 	preg_match( '/src="(.+?)"/', $video_embed_code, $matches );
 
 	return $matches[1];
+}
+
+function getGoogleMapImage( $args ) {
+	$defaults = array(
+		'address'     => '',
+		'zoom'        => '15',
+		'width'       => '255',
+		'height'      => '170',
+		'scale'       => 'false',
+		'maptype'     => 'roadmap',
+		'devkey'      => 'AIzaSyD8y7IJNTgRSwbnoR-I1OopiRU721SZg3k',
+		'format'      => 'png',
+		'sensor'      => 'false',
+		'markerSize'  => 'mid',
+		'markerColor' => 'red'
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+
+	return '<a href="https://www.google.gr/maps/search/' . urlencode( $r["address"] ) . '" target="_blank">' .
+				 '<img src="http://maps.googleapis.com/maps/api/staticmap?' .
+				 'center=' . urlencode( $r["address"] ) .
+				 '&amp;zoom=' . $r["zoom"] .
+				 '&amp;scale=' . $r["scale"] .
+				 '&amp;size=' . $r["width"] . 'x' . $r["height"] .
+				 '&amp;maptype=' . $r["maptype"] .
+				 '&amp;key=' . $r["devkey"] .
+				 '&amp;format=' . $r["format"] .
+				 '&amp;markers=markers=' .
+				 'size:' . $r["markerSize"] . '%7C' .
+				 'color:' . $r["markerColor"] .
+				 '%7C' . urlencode( $r["address"] ) .
+				 '&amp;sensor=' . $r["sensor"] . '"' .
+				 ' alt="' . $r["address"] . '"/>' .
+				 '</a>';
 }

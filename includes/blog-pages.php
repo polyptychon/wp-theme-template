@@ -82,3 +82,26 @@ function get_home_page_id() {
 	}
 	return -1;
 }
+
+function the_post_link($post=null) {
+  echo get_post_link($post);
+}
+function get_post_link($post=null) {
+  global $paged;
+  $category_query_id = get_query_var( 'cat' );
+  $query_string = $category_query_id ? "?cat=$category_query_id" : "";
+  $query_string .= $category_query_id && $paged ? "&paged=$paged":"";
+  $query_string .= !$category_query_id && $paged ? "?paged=$paged":"";
+  return get_permalink($post).$query_string;
+}
+
+function the_back_to_list_link() {
+  echo get_back_to_list_link();
+}
+function get_back_to_list_link() {
+  $category_query_id = get_query_var( 'cat' );
+  $back_to_list_link = $category_query_id ? get_category_link($category_query_id) : '/'.get_blog_home().'/';
+  $paged = get_query_var( 'paged' );
+  $back_to_list_link .= $paged ? "page/$paged/":"";
+  return $back_to_list_link;
+}

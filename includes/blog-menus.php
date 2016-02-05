@@ -88,10 +88,17 @@ class My_Walker_Nav_Menu_Child_Link extends Walker_Nav_Menu {
 		$classes[] = 'menu-item-' . $item->ID;
 
 		$page_for_posts = get_option( 'page_for_posts' );
-		if ($queried_object->post_type=='collection-item') {
+		if ($queried_object->post_type=='collection') {
 			if (array_search('current_page_parent', $classes) && $item->object_id == $page_for_posts) {
 				unset( $classes[ array_search( 'current_page_parent', $classes ) ] );
-			} else if ($item->object_id==icl_object_id(11, 'page')) {
+			} else if ($item->object_id==icl_object_id(44, 'page')) {
+				array_push($classes, 'current_page_parent');
+			}
+		}
+		if ($queried_object->post_type=='publication') {
+			if (array_search('current_page_parent', $classes) && $item->object_id == $page_for_posts) {
+				unset( $classes[ array_search( 'current_page_parent', $classes ) ] );
+			} else if ($item->object_id==icl_object_id(48, 'page')) {
 				array_push($classes, 'current_page_parent');
 			}
 		}

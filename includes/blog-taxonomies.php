@@ -123,3 +123,26 @@ function the_blog_taxonomy_dropdown( $taxonomy_slug, $post_type_home_id=11, $all
   }
   echo '</ul></div>';
 }
+
+function the_taxonomy_list($taxonomy_slug, $post_type_home_id=11, $all_taxonomy_label='All exhibits', $post_type_slug='collection') {
+  $query_var = get_query_var($taxonomy_slug);
+
+  $total_posts = wp_count_posts($post_type_slug)->publish;
+  $term_name = "$all_taxonomy_label ($total_posts)";
+  $post_type_link = get_page_permalink( $post_type_home_id );
+  $term_class = empty( $query_var ) ? 'class="active"' : '';
+
+  echo "<li $term_class>";
+  echo "<a $term_class href=\"$post_type_link\">$term_name</a>";
+  echo "</li>";
+  foreach ( get_terms($taxonomy_slug, array('hide_empty'=> true)) as $term ) {
+    $term_slug = urldecode( $term->slug ? $term->slug : $term->name );
+    $term_name = "$term->name  ($term->count)";
+    $term_link = $post_type_link."?$taxonomy_slug=$term_slug";
+    $term_class = $query_var == $term_slug ? 'class="active"' : '';
+
+    echo "<li $term_class>";
+    echo "<a $term_class href=\"$term_link\">$term_name</a>";
+    echo "</li>";
+  }
+}

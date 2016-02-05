@@ -35,7 +35,7 @@ function the_blog_categories_dropdown() {
 	echo '<div class="btn-group">';
 	echo '<button type="button" data-toggle="dropdown" class="text-uppercase dropdown-toggle btn btn-default">';
 	if (empty($category_id)):
-		_e("All news", "axios");
+		_e("All news", "kastoria");
 	else:
 		echo get_cat_name($category_id);
 	endif;
@@ -45,7 +45,7 @@ function the_blog_categories_dropdown() {
 		echo '<li><a class="text-uppercase" href="' .
 		     get_bloginfo( 'wpurl' ) .'/'.
 		     get_language_code_for_url(). get_blog_home(). '/">' .
-		     translate("All news", "axios").
+		     translate("All news", "kastoria").
 		     '</a>' .
 		     '</li>';
 	endif;
@@ -72,11 +72,11 @@ function get_categories_as_anchors( $categories, $sep = ', ', $classes = 'catego
 	return trim( $links, $sep );
 }
 
-function get_all_categories_as_string( $exclude_id, $sep = ',' ) {
+function get_all_categories_as_string( $exclude_id=null, $sep = ',' ) {
 	$a          = '';
 	$categories = get_categories();
 	foreach ( $categories as $category ) {
-		if ( $exclude_id != $category->term_id ) {
+		if ( !$exclude_id || $exclude_id != $category->term_id ) {
 			$a .= $category->term_id . $sep;
 		}
 	}
