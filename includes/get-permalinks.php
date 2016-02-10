@@ -1,7 +1,7 @@
 <?php
 
 function get_page_permalink($id) {
-	$id = icl_object_id($id, 'page', false,ICL_LANGUAGE_CODE);
+	$id = apply_filters( 'wpml_object_id', $id, 'page', FALSE, ICL_LANGUAGE_CODE );
   return get_permalink( $id );
 }
 

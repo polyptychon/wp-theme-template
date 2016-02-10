@@ -15,9 +15,11 @@
  * ) );
  *
  */
+
 function the_picture_a( $args = array() ) {
 	echo get_picture_a( $args );
 }
+
 /*
  * Support Photoswipe.js
  */
@@ -33,6 +35,8 @@ function get_picture_a( $args = array() ) {
 	$img_retina    = get_picture_attributes( $args );
 
 	$picture = '<a class="image-container" href="' . $img_large['src'] . '"';
+	if ($r['use_background_image'])
+		$picture .= ' style="background-image:url(' . $img_large['src'] . ')"';
 	$picture .= ' data-width="' . $img_large['width'] . '"';
 	$picture .= ' data-height="' . $img_large['height'] . '"';
 	$picture .= ' data-retina-image="' . $img_retina['src'] . '"';
@@ -84,6 +88,8 @@ function get_picture( $args = array() ) {
 	$r        = wp_parse_args( $args, $defaults );
 
 	$thumbs = $r["thumbs"];
+
+  $id  = $r['id'] == - 1 ? get_post_thumbnail_id() : $r['id'];
 
 	if ( empty( $thumbs["screen-xs"] ) && empty( $thumbs["screen-sm"] ) && empty( $thumbs["screen-md"] ) && empty( $thumbs["screen-lg"] ) && empty( $thumbs["retina"] ) ) {
 		$r['thumb'] = $thumbs["default"];
@@ -145,18 +151,19 @@ function get_picture_attributes( $args ) {
 		$id  = $r['id'] == - 1 ? get_post_thumbnail_id() : $r['id'];
 		$img = wp_get_attachment_image_src( $id, $r['thumb'] );
 		$src = $img[0];
-		$alt = get_post_meta( $id, '_wp_attachment_image_alt', true );
+    $img_info   = get_media_info($id);
+		$alt = $img_info['alt'];
 		$w   = $r['width'] == 0 ? $img[1] : $r['width'];
 		$h   = $r['height'] == 0 ? $img[2] : $r['height'];
 	} else {
+    $media_info = get_media_info($r['image']['id']);
+    $alt = $media_info['alt'];
 		if ($r['thumb']=="original") {
 			$src = $r['image']['url'];
-			$alt = $r['image']['alt'];
 			$w   = $r['width'] == 0 ? $r['image']['width']: $r['width'];
 			$h   = $r['height'] == 0 ? $r['image']['height'] : $r['height'];
 		} else {
 			$src = $r['image']['sizes'][ $r['thumb'] ];
-			$alt = $r['image']['alt'];
 			$w   = $r['width'] == 0 ? $r['image']['sizes'][ $r['thumb'] . '-width' ] : $r['width'];
 			$h   = $r['height'] == 0 ? $r['image']['sizes'][ $r['thumb'] . '-height' ] : $r['height'];
 		}
@@ -195,6 +202,20 @@ function get_embed_video_src( $video_embed_code ) {
 	preg_match( '/src="(.+?)"/', $video_embed_code, $matches );
 
 	return $matches[1];
+}
+
+function get_media_info($id) {
+	$image_post = get_post( $id );
+  $alt = trim(strip_tags( get_post_meta($id, '_wp_attachment_image_alt', true) ));
+	$title = trim(strip_tags($image_post->post_title));
+	$caption = trim(strip_tags($image_post->post_excerpt));
+	$alt = empty($alt) ? $caption : $alt;
+	$alt = empty($alt) ? $title : $alt;
+	return array(
+		'title' => $title,
+		'caption' => $caption,
+		'alt' => $alt,
+	);
 }
 
 function getGoogleMapImage( $args ) {

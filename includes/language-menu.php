@@ -1,7 +1,7 @@
 <?php
 
 function languages_list_header() {
-  $languages = icl_get_languages( 'skip_missing=0&orderby=code' );
+  $languages =  apply_filters( 'wpml_active_languages', NULL, 'skip_missing=0&orderby=code' );
   if ( ! empty( $languages ) ) {
     echo '<ul class="header-bar-menu pull-right">';
     foreach ( $languages as $l ) {

@@ -93,56 +93,69 @@ function get_all_taxonomies_filter( $post_type ) {
   return $filter;
 }
 
-function the_blog_taxonomy_dropdown( $taxonomy_slug, $post_type_home_id=11, $all = 'All' ) {
-  $terms     = get_terms( $taxonomy_slug );
+function the_blog_taxonomy_dropdown( $taxonomy_slug, $post_type_home_id=11, $post_type_slug='collection', $all_label = 'All exhibits', $count_posts=false ) {
+  echo get_blog_taxonomy_dropdown( $taxonomy_slug, $post_type_home_id, $post_type_slug, $all_label, $count_posts );
+}
+function get_blog_taxonomy_dropdown( $taxonomy_slug, $post_type_home_id=11, $post_type_slug='collection', $all_label = 'All exhibits', $count_posts=false ) {
   $query_var = get_query_var( $taxonomy_slug );
-  echo '<div class="btn-group">';
-  echo '<button type="button" data-toggle="dropdown" class="text-uppercase dropdown-toggle btn btn-default">';
-  if ( empty( $query_var ) ) {
-    echo $all;
-  } else {
+
+  $total_posts = $count_posts ? my_count_posts(ICL_LANGUAGE_CODE, $post_type_slug) : '';
+  $post_type_link = get_page_permalink( $post_type_home_id );
+  $terms     = get_terms( $taxonomy_slug, array('hide_empty'=> true) );
+  $term_name = $count_posts ? "$all_label ($total_posts)":$all_label;
+
+  if ( !empty( $query_var ) ) {
     foreach ( $terms as $term ) {
-      $slug = urldecode( $term->slug ? $term->slug : $term->name );
-      if ( $slug == $query_var ) {
-        echo $term->name;
+      $term_slug = urldecode( $term->slug ? $term->slug : $term->name );
+      if ( $term_slug == $query_var ) {
+        $term_name = $count_posts ? "$term->name ($term->count)":$term->name;
       }
     }
   }
-  echo '<span class="caret"></span></button>';
-  echo '<ul role="menu" class="dropdown-menu">';
-  if ( ! empty( $query_var ) ) {
-    $link = get_page_permalink( $post_type_home_id );
-    echo '<li><a class="text-uppercase" href="' . $link . '">' . $all . '</a>' . '</li>';
+  $str  = '<div class="dropdown">';
+  $str .= '<button type="button" data-toggle="dropdown" class="text-uppercase dropdown-toggle btn btn-default">';
+  $str .= "$term_name&nbsp;";
+  $str .= '<span class="caret"></span></button>';
+  $str .= '<ul role="menu" class="dropdown-menu">';
+  if ( !empty( $query_var ) ) {
+    $term_name = $count_posts ? "$all_label ($total_posts)":$all_label;
+    $str .= "<li><a class=\"text-uppercase\" href=\"$post_type_link\">$term_name</a></li>";
   }
   foreach ( $terms as $term ) {
-    $slug = urldecode( $term->slug ? $term->slug : $term->name );
-    if ( $slug != $query_var ) {
-      $link = get_page_permalink( $post_type_home_id ) . '?' . $taxonomy_slug . '=' . $slug;
-      echo '<li><a class="text-uppercase" href="'.$link.'">' . $term->name . '</a>' . '</li>';
+    $term_slug = urldecode( $term->slug ? $term->slug : $term->name );
+    if ( $term_slug != $query_var ) {
+      $term_link = "$post_type_link?$taxonomy_slug=$term_slug";
+      $term_name = $count_posts ? "$term->name  ($term->count)" : $term->name;
+      $str .= "<li><a class=\"text-uppercase\" href=\"$term_link\">$term_name </a></li>";
     }
   }
-  echo '</ul></div>';
+  $str .= '</ul></div>';
+  return $str;
+}
+function the_taxonomy_list($taxonomy_slug, $post_type_home_id=11, $post_type_slug='collection', $all_taxonomy_label='All exhibits', $count_posts=true) {
+  echo get_taxonomy_list($taxonomy_slug, $post_type_home_id, $post_type_slug, $all_taxonomy_label, $count_posts);
 }
 
-function the_taxonomy_list($taxonomy_slug, $post_type_home_id=11, $all_taxonomy_label='All exhibits', $post_type_slug='collection') {
+function get_taxonomy_list($taxonomy_slug, $post_type_home_id=11, $post_type_slug='collection', $all_taxonomy_label='All exhibits', $count_posts=true) {
   $query_var = get_query_var($taxonomy_slug);
 
-  $total_posts = wp_count_posts($post_type_slug)->publish;
-  $term_name = "$all_taxonomy_label ($total_posts)";
+  $total_posts = $count_posts ? my_count_posts(ICL_LANGUAGE_CODE, $post_type_slug) : '';
+  $term_name = $count_posts ? "$all_taxonomy_label ($total_posts)" : $all_taxonomy_label;
   $post_type_link = get_page_permalink( $post_type_home_id );
   $term_class = empty( $query_var ) ? 'class="active"' : '';
 
-  echo "<li $term_class>";
-  echo "<a $term_class href=\"$post_type_link\">$term_name</a>";
-  echo "</li>";
+  $str  = "<li $term_class>";
+  $str .= "<a $term_class href=\"$post_type_link\">$term_name</a>";
+  $str .= "</li>";
   foreach ( get_terms($taxonomy_slug, array('hide_empty'=> true)) as $term ) {
     $term_slug = urldecode( $term->slug ? $term->slug : $term->name );
-    $term_name = "$term->name  ($term->count)";
+    $term_name = $count_posts ? "$term->name  ($term->count)" : $term->name;
     $term_link = $post_type_link."?$taxonomy_slug=$term_slug";
     $term_class = $query_var == $term_slug ? 'class="active"' : '';
 
-    echo "<li $term_class>";
-    echo "<a $term_class href=\"$term_link\">$term_name</a>";
-    echo "</li>";
+    $str .= "<li $term_class>";
+    $str .= "<a $term_class href=\"$term_link\">$term_name</a>";
+    $str .= "</li>";
   }
+  return $str;
 }
