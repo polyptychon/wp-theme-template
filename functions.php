@@ -19,6 +19,14 @@ include( INCLUDES_PATH . 'media.php' );
 include( INCLUDES_PATH . 'setup-custom-post-type.php' );
 include( INCLUDES_PATH . 'setup-taxonomies.php' );
 
+/*
+ * Fix Wordpress image issues
+*/
+
+add_filter( 'wp_image_editors', 'change_graphic_lib' );
+function change_graphic_lib($array) {
+  return array( 'WP_Image_Editor_GD', 'WP_Image_Editor_Imagick' );
+}
 
 /*
  * Remove wordpress header metadata
